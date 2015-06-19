@@ -7,3 +7,8 @@ pip install Theano
 NumPy (~30s): python -c "import numpy; numpy.test()"
 SciPy (~1m): python -c "import scipy; scipy.test()"
 Theano (~30m): python -c "import theano; theano.test()"
+
+R
+sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
+yum install epel-release
+    yum install R
