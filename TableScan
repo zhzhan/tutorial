@@ -1,0 +1,150 @@
+
+scala>  val m = hiveContext.read.format("orc").load("orcFile")
+15/08/11 20:58:51 INFO OrcRelation: Listing file:/Users/zzhang/code/UNET/orcFile on driver
+m: org.apache.spark.sql.DataFrame = [key: string, inners: struct<a:string,b:string>]
+
+scala>  m.schema
+res0: org.apache.spark.sql.types.StructType = StructType(StructField(key,StringType,true), StructField(inners,StructType(StructField(a,StringType,true), StructField(b,StringType,true)),true))
+
+scala>  m.registerTempTable("orcTable")
+
+scala>  val t = hiveContext.sql("select inners.a from orcTable")
+15/08/11 20:58:52 INFO ParseDriver: Parsing command: select inners.a from orcTable
+15/08/11 20:58:52 INFO ParseDriver: Parse Completed
+t: org.apache.spark.sql.DataFrame = [a: string]
+
+scala> t.queryExecution
+15/08/11 20:59:02 INFO MemoryStore: ensureFreeSpace(88456) called with curMem=0, maxMem=556038881
+15/08/11 20:59:02 INFO MemoryStore: Block broadcast_0 stored as values in memory (estimated size 86.4 KB, free 530.2 MB)
+15/08/11 20:59:02 INFO MemoryStore: ensureFreeSpace(19788) called with curMem=88456, maxMem=556038881
+15/08/11 20:59:02 INFO MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 19.3 KB, free 530.2 MB)
+15/08/11 20:59:02 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on localhost:62430 (size: 19.3 KB, free: 530.3 MB)
+15/08/11 20:59:02 INFO SparkContext: Created broadcast 0 from replStringOf at <console>:10
+pruneFilterRwa: inners#1.a AS a#2
+column: inners
+15/08/11 20:59:03 INFO MemoryStore: ensureFreeSpace(231688) called with curMem=108244, maxMem=556038881
+15/08/11 20:59:03 INFO MemoryStore: Block broadcast_1 stored as values in memory (estimated size 226.3 KB, free 530.0 MB)
+15/08/11 20:59:03 INFO MemoryStore: ensureFreeSpace(20036) called with curMem=339932, maxMem=556038881
+15/08/11 20:59:03 INFO MemoryStore: Block broadcast_1_piece0 stored as bytes in memory (estimated size 19.6 KB, free 529.9 MB)
+15/08/11 20:59:03 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on localhost:62430 (size: 19.6 KB, free: 530.2 MB)
+15/08/11 20:59:03 INFO SparkContext: Created broadcast 1 from replStringOf at <console>:10
+res2: org.apache.spark.sql.SQLContext#QueryExecution =
+== Parsed Logical Plan ==
+'Project [unresolvedalias('inners.a)]
+ 'UnresolvedRelation [orcTable], None
+
+== Analyzed Logical Plan ==
+a: string
+Project [inners#1.a AS a#2]
+ Subquery orctable
+  Relation[key#0,inners#1] OrcRelation[file:/Users/zzhang/code/UNET/orcFile]
+
+== Optimized Logical Plan ==
+Project [inners#1.a AS a#2]
+ Relation[key#0,inners#1] OrcRelation[file:/Users/zzhang/code/UNET/orcFile]
+
+== Physical Plan ==
+Project [inners#1.a AS a#2]
+ Scan OrcRelation[file:/Users/zzhang/code/UNET/orcFile][inners#1]
+
+Code Generation: true
+
+scala>
+
+scala> val t = hiveContext.sql("select inners.a from orcTable where inners.b='a'")
+15/08/11 20:59:55 INFO ParseDriver: Parsing command: select inners.a from orcTable where inners.b='a'
+15/08/11 20:59:55 INFO ParseDriver: Parse Completed
+t: org.apache.spark.sql.DataFrame = [a: string]
+
+scala> t.queryExecution
+15/08/11 20:59:58 INFO MemoryStore: ensureFreeSpace(230672) called with curMem=359968, maxMem=556038881
+15/08/11 20:59:58 INFO MemoryStore: Block broadcast_2 stored as values in memory (estimated size 225.3 KB, free 529.7 MB)
+15/08/11 20:59:58 INFO MemoryStore: ensureFreeSpace(19788) called with curMem=590640, maxMem=556038881
+15/08/11 20:59:58 INFO MemoryStore: Block broadcast_2_piece0 stored as bytes in memory (estimated size 19.3 KB, free 529.7 MB)
+15/08/11 20:59:58 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on localhost:62430 (size: 19.3 KB, free: 530.2 MB)
+15/08/11 20:59:58 INFO SparkContext: Created broadcast 2 from replStringOf at <console>:10
+pruneFilterRwa: inners#1.a AS a#4
+filterPredicates: (inners#1.b = a)
+predicates: (inners#1.b = a)
+column: inners
+15/08/11 20:59:58 INFO MemoryStore: ensureFreeSpace(231688) called with curMem=610428, maxMem=556038881
+15/08/11 20:59:58 INFO MemoryStore: Block broadcast_3 stored as values in memory (estimated size 226.3 KB, free 529.5 MB)
+15/08/11 20:59:58 INFO MemoryStore: ensureFreeSpace(20036) called with curMem=842116, maxMem=556038881
+15/08/11 20:59:58 INFO MemoryStore: Block broadcast_3_piece0 stored as bytes in memory (estimated size 19.6 KB, free 529.5 MB)
+15/08/11 20:59:58 INFO BlockManagerInfo: Added broadcast_3_piece0 in memory on localhost:62430 (size: 19.6 KB, free: 530.2 MB)
+15/08/11 20:59:58 INFO SparkContext: Created broadcast 3 from replStringOf at <console>:10
+res3: org.apache.spark.sql.SQLContext#QueryExecution =
+== Parsed Logical Plan ==
+'Project [unresolvedalias('inners.a)]
+ 'Filter ('inners.b = a)
+  'UnresolvedRelation [orcTable], None
+
+== Analyzed Logical Plan ==
+a: string
+Project [inners#1.a AS a#4]
+ Filter (inners#1.b = a)
+  Subquery orctable
+   Relation[key#0,inners#1] OrcRelation[file:/Users/zzhang/code/UNET/orcFile]
+
+== Optimized Logical Plan ==
+Project [inners#1.a AS a#4]
+ Filter (inners#1.b = a)
+  Relation[key#0,inners#1] OrcRelation[file:/Users/zzhang/code/UNET/orcFile]
+
+== Physical Plan ==
+Project [inners#1.a AS a#4]
+ Filter (inners#1.b = a)
+  Scan OrcRelation[file:/Users/zzhang/code/UNET/orcFile][inners#1]
+
+Code Generation: true
+
+scala> val t = hiveContext.sql("select inners.a from orcTable where key='a'")
+15/08/11 21:00:17 INFO ParseDriver: Parsing command: select inners.a from orcTable where key='a'
+15/08/11 21:00:17 INFO ParseDriver: Parse Completed
+t: org.apache.spark.sql.DataFrame = [a: string]
+
+scala> t.queryExecution
+15/08/11 21:00:21 INFO MemoryStore: ensureFreeSpace(230672) called with curMem=862152, maxMem=556038881
+15/08/11 21:00:21 INFO MemoryStore: Block broadcast_4 stored as values in memory (estimated size 225.3 KB, free 529.2 MB)
+15/08/11 21:00:21 INFO MemoryStore: ensureFreeSpace(19788) called with curMem=1092824, maxMem=556038881
+15/08/11 21:00:21 INFO MemoryStore: Block broadcast_4_piece0 stored as bytes in memory (estimated size 19.3 KB, free 529.2 MB)
+15/08/11 21:00:21 INFO BlockManagerInfo: Added broadcast_4_piece0 in memory on localhost:62430 (size: 19.3 KB, free: 530.2 MB)
+15/08/11 21:00:21 INFO SparkContext: Created broadcast 4 from replStringOf at <console>:10
+pruneFilterRwa: inners#1.a AS a#6
+filterPredicates: (key#0 = a)
+predicates: (key#0 = a)
+column: inners
+column: key
+filter: EqualTo(key,a)
+15/08/11 21:00:21 INFO MemoryStore: ensureFreeSpace(231696) called with curMem=1112612, maxMem=556038881
+15/08/11 21:00:21 INFO MemoryStore: Block broadcast_5 stored as values in memory (estimated size 226.3 KB, free 529.0 MB)
+15/08/11 21:00:21 INFO MemoryStore: ensureFreeSpace(20057) called with curMem=1344308, maxMem=556038881
+15/08/11 21:00:21 INFO MemoryStore: Block broadcast_5_piece0 stored as bytes in memory (estimated size 19.6 KB, free 529.0 MB)
+15/08/11 21:00:21 INFO BlockManagerInfo: Added broadcast_5_piece0 in memory on localhost:62430 (size: 19.6 KB, free: 530.2 MB)
+15/08/11 21:00:21 INFO SparkContext: Created broadcast 5 from replStringOf at <console>:10
+res4: org.apache.spark.sql.SQLContext#QueryExecution =
+== Parsed Logical Plan ==
+'Project [unresolvedalias('inners.a)]
+ 'Filter ('key = a)
+  'UnresolvedRelation [orcTable], None
+
+== Analyzed Logical Plan ==
+a: string
+Project [inners#1.a AS a#6]
+ Filter (key#0 = a)
+  Subquery orctable
+   Relation[key#0,inners#1] OrcRelation[file:/Users/zzhang/code/UNET/orcFile]
+
+== Optimized Logical Plan ==
+Project [inners#1.a AS a#6]
+ Filter (key#0 = a)
+  Relation[key#0,inners#1] OrcRelation[file:/Users/zzhang/code/UNET/orcFile]
+
+== Physical Plan ==
+Project [inners#1.a AS a#6]
+ Filter (key#0 = a)
+  Scan OrcRelation[file:/Users/zzhang/code/UNET/orcFile][inners#1,key#0]
+
+Code Generation: true
+
+scala>
