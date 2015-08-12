@@ -20,8 +20,8 @@ scala> t.queryExecution
 15/08/11 20:59:02 INFO MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 19.3 KB, free 530.2 MB)
 15/08/11 20:59:02 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on localhost:62430 (size: 19.3 KB, free: 530.3 MB)
 15/08/11 20:59:02 INFO SparkContext: Created broadcast 0 from replStringOf at <console>:10
-pruneFilterRwa: inners#1.a AS a#2
-column: inners
+pruneFilterRwa: inners#1.a AS a#2 <<< orignal projection
+column: inners <<< passed to scan
 15/08/11 20:59:03 INFO MemoryStore: ensureFreeSpace(231688) called with curMem=108244, maxMem=556038881
 15/08/11 20:59:03 INFO MemoryStore: Block broadcast_1 stored as values in memory (estimated size 226.3 KB, free 530.0 MB)
 15/08/11 20:59:03 INFO MemoryStore: ensureFreeSpace(20036) called with curMem=339932, maxMem=556038881
@@ -63,10 +63,10 @@ scala> t.queryExecution
 15/08/11 20:59:58 INFO MemoryStore: Block broadcast_2_piece0 stored as bytes in memory (estimated size 19.3 KB, free 529.7 MB)
 15/08/11 20:59:58 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on localhost:62430 (size: 19.3 KB, free: 530.2 MB)
 15/08/11 20:59:58 INFO SparkContext: Created broadcast 2 from replStringOf at <console>:10
-pruneFilterRwa: inners#1.a AS a#4
-filterPredicates: (inners#1.b = a)
-predicates: (inners#1.b = a)
-column: inners
+pruneFilterRwa: inners#1.a AS a#4  <<< original projection
+filterPredicates: (inners#1.b = a) <<< original predicate
+predicates: (inners#1.b = a) <<< original predicate
+column: inners <<< passed to scan
 15/08/11 20:59:58 INFO MemoryStore: ensureFreeSpace(231688) called with curMem=610428, maxMem=556038881
 15/08/11 20:59:58 INFO MemoryStore: Block broadcast_3 stored as values in memory (estimated size 226.3 KB, free 529.5 MB)
 15/08/11 20:59:58 INFO MemoryStore: ensureFreeSpace(20036) called with curMem=842116, maxMem=556038881
@@ -115,7 +115,7 @@ filterPredicates: (key#0 = a)
 predicates: (key#0 = a)
 column: inners
 column: key
-filter: EqualTo(key,a)
+filter: EqualTo(key,a)<<<< passed to scan
 15/08/11 21:00:21 INFO MemoryStore: ensureFreeSpace(231696) called with curMem=1112612, maxMem=556038881
 15/08/11 21:00:21 INFO MemoryStore: Block broadcast_5 stored as values in memory (estimated size 226.3 KB, free 529.0 MB)
 15/08/11 21:00:21 INFO MemoryStore: ensureFreeSpace(20057) called with curMem=1344308, maxMem=556038881
