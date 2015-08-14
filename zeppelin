@@ -1,0 +1,16 @@
+1. conf/zeppelin-env.sh:
+
+export HADOOP_CONF_DIR=/etc/hadoop/conf
+export ZEPPELIN_JAVA_OPTS="-Dhdp.version=2.2.4.0-2633"
+
+2.hive-site.xml under zeppelin/conf
+
+3.setting in your interpreter page:
+master	yarn-client
+spark.driver.extraJavaOptions	-Dhdp.version=2.2.5.0-2644
+spark.home	/usr/hdp/current/spark-client/
+spark.yarn.am.extraJavaOptions	-Dhdp.version=2.2.5.0-2644
+spark.yarn.jar	file:///path_to_zeppelin_install/interpreter/spark/zeppelin-spark-0.5.0-SNAPSHOT.jar
+4. create a directory on HDFS for zeppelin user
+su hdfs
+hdfs dfs -mkdir /user/zeppelin;hdfs dfs -chown zeppelin:hdfs /user/zeppelin
