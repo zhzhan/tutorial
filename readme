@@ -1,0 +1,801 @@
+git clone zzhang@localhost:~zzhang/code/git/mlp.git
+
+This is what I usually do for my patches.
+ 
+On the contributor side:
+1.    commit locally
+2.    git format-patch -1
+3.    attach the patch-file to jira
+On the reviewing end:
+1. git am patch-file
+2. git push
+
+ssh -i ~/.ssh/hw-dev-keypair.pem root@172.22.115.33
+
+ssh -i ~/.ssh/hw-dev-keypair.pem root@172.22.84.185
+
+hrt_qa is a headless account. You should use the following command for kinit:
+
+kinit -k -t /tmp/hrt_qa.headless.keytab hrt_qa
+
+services.msc
+
+ssh root@127.0.0.1 -p 2222
+sbt/sbt -Pyarn -Phadoop-2.3 -Dhadoop.version=2.3.0 -Pkinesis-asl -Phive -Phive-0.13.1 "show assembly/compile:dependency-classpath"
+
+/Users/zzhang/zinc-0.3.5.3/bin/zinc -start
+git clean -dfx
+
+ sbt/sbt -Phive -Dhive.version=0.14.0 -Pyarn -Phadoop-2.4 -Dhadoop.version=2.6.0 "show assembly/compile:dependency-classpath"
+
+import org.apache.spark.sql.orc._
+val sqlContext = new org.apache.spark.sql.SQLContext(sc)
+val file = sqlContext.orcFile(/private/var/folders/db/xk07b64n54z_n09npcflzc9r0000gp/T/orcTest6570338223217564474/part-r-00000")
+
+
+yarn logs -applicationId application_1411511669099_0757 | grep DAG_FINISHED | grep -v History > /tmp/x2.txt
+cat /tmp/x2.txt | sed "s/\(.*\).$/\1/" | python -mjson.tool  | vim -
+stark:
+export EXECUTION_CONTEXT_HOME=/home/zzhang/stark/stark-1.0/
+
+
+vagrant halt //graceful shutdown
+vagrant up
+
+vagrant suspend//snapshot
+vagrant resume
+
+ORCFILE
+sc.hadoopConfiguration.set("record.delimiter.regex", "^[A-Za-z]{3},\\s\\d{2}\\s[A-Za-z]{3}.*") 
+//val inputRead = sc.newAPIHadoopFile("/user/zzhang/file",classOf[org.apache.hadoop.hive.ql.io.orc.OrcInputFormat],classOf[org.apache.hadoop.io.NullWritable],classOf[org.apache.hadoop.hive.ql.io.orc.OrcStruct]) 
+
+val inputRead = sc.hadoopFile("/user/zzhang/orc_demo",classOf[org.apache.hadoop.hive.ql.io.orc.OrcInputFormat],classOf[org.apache.hadoop.io.NullWritable],classOf[org.apache.hadoop.hive.ql.io.orc.OrcStruct])
+
+val inputRead = sc.hadoopFile("/home/zzhang/orc_demo",classOf[org.apache.hadoop.hive.ql.io.orc.OrcInputFormat],classOf[org.apache.hadoop.io.NullWritable],classOf[org.apache.hadoop.hive.ql.io.orc.OrcStruct])
+
+val v = inputRead.map(pair => pair._2.toString)
+val c = v.collect
+
+
+
+ server:
+yarn historyserver
+host:8188
+http://0.0.0.0:8188/ws/v1/timeline/SparkApplication/application_1415125182638_0021
+
+git reset --hard //revert local chnage
+git clean -f //revert even untracked change
+git checkout filename//reverse the change
+
+git checkout master
+git pull
+git checkout mobiledevicesupport
+git merge master
+
+
+spark on tez:
+./gradlew clean eclipse
+
+perf:
+cp /mnt/nfs0/sid/scripts/env.sh ~zzhang/
+sandbox:
+ssh vagrant@gw.example.com
+ scp -r zzhang@10.11.3.111:~/code/spark/assembly ./
+ scp -r zzhang@10.11.3.111:~/code/spark/bin ./
+ scp -r zzhang@10.11.3.111:~/code/spark/examples ./
+export HADOOP_CONF_DIR=/etc/hadoop/conf
+source /mnt/nfs0/sid/scripts/env.sh
+
+change bin/spark-class with  "-Dspark.yarn.submit.file.replication=1"
+./bin/spark-shell --master yarn-client
+
+gira account:
+zhazhan:z@*****2
+
+
+git clone https://github.com/apache/spark.git
+./sbt/sbt assembly
+sbt/sbt -Phive  -Dhive.version=0.13.1 -Pyarn -Phadoop-2.4 -Dhadoop.version=2.5.1 "test-only org.apache.spark.sql.hive.orc.OrcQuerySuite"
+sbt/sbt -Phive -Phive-thriftserver -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0 assembly
+sbt/sbt "test-only org.apache.spark.rdd.SortingSuite"
+sbt/sbt -Phive -Dhive.version=0.13.1 -Pyarn -Phadoop-2.4 -Dhadoop.version=2.6.0 "test-only org.apache.spark.sql.hive.thriftserver.HiveThriftServer2Suite"
+
+sbt/sbt -Phive -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0 -Phive-thriftserver "test-only org.apache.spark.sql.hive.thriftserver.CliSuite"
+./make-distribution.sh --tgz  -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0.2.1.3.0-563 -Dhive.version=0.13.1
+
+
+SPARK_HADOOP_VERSION=2.4.0 SPARK_YARN=true sbt/sbt assembly
+sbt/sbt assembly -Phive -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0
+sbt/sbt -Phive -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0 "test-only org.apache.spark.sql.hive.execution.HiveCompatibilitySuite"
+cp /Users/zzhang/code/hive/ql/target/hive-exec-0.13.1.jar /Users/zzhang/.ivy2/cache/org.apache.hive/hive-exec/jars/
+
+Hive:
+mvn package -Phadoop-2 -DskipTests
+mvn install:install-file -Dfile=/Users/zzhang/code/hive/ql/target/hive-exec-0.13.1.jar -DgroupId=org.apache.hive -DartifactId=hive-exec -Dversion=0.13.1 -Dpackaging=jar
+mvn org.apache.maven.plugins:maven-install-plugin:2.5.1:install-file -Dfile=/Users/zzhang/code/hive/ql/target/hive-exec-0.13.1.jar
+mvn -Phive -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0 -DwildcardSuites=org.apache.spark.sql.hive.CachedTableSuite test
+mvn  -Phive -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0 -DwildcardSuites=org.apache.spark.sql.hive.execution.HiveQuerySuite test
+mvn  -Phive -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0 -DwildcardSuites=org.apache.spark.sql.hive.StatisticsSuite test
+mvn -Phive -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0 -DwildcardSuites=org.apache.spark.sql.hive.execution.HiveCompatibilitySuite test
+
+-DwildcardSuites=org.apache.spark.sql.hive.orc.OrcQuerySuitei test
+Hadoop:
+git clone git://git.apache.org/hadoop-common.git hadoop
+mvn clean install -Pdist -Dtar -DskipTests=true
+cp -r ./hadoop-dist/target/hadoop-3.0.0-SNAPSHOT ~/deploy
+
+
+LinearRegression.train
+GeneralizedLinearAlgorithm.run
+GradientDecent.optimize
+GradientDecent.runMiniBatchSGD
+
+Execution Engine:
+DAG, TaskScheduler, backend and executorbackend.
+
+Control path mainly relies on AKKA actor model.
+
+Computation relies on RDD linage, which is a fancy work, and actually it is a feature from functional language, which regards function as first citizen. So that the program does not need to
+memorize how record is generated, because all the operation itself is wrapped with the record itself. 
+
+Personal opinion:
+Spark on YARN: 
+   for yarn-client mode, security may be a concern. It requires the worker node is able to establish connection to driver node, which is typically out of the cluster, to support interactive 
+execution. Because the REPL requires the worker node download the wrapped closure at run time, which is compiled and saved in the driver.
+   for yarn-cluster mode, the driver locates at the application master. The client (used to lunch the app) only pull the status from driver, but cannot actively execute users' run time command.
+
+Performance:
+The performance gain is from memory based computation. If storage requirement is big, or data needs to be passed across network (shuffle), it may be performance issue.
+
+
+
+
+Currently, Spark is trying to integrate to H2O to support deep learning (which I didn't see any advantage if the model is huge, which is usually the case, especially for image and voice recognition.)
+
+Spark take the model average approach.
+
+Data locality:
+ApplicationMaster.startUserClass which init sc, user initi sparkContext, which taskScheduler.postStartHook()->YarnClusterScheduler.postStartHook->    ApplicationMaster.sparkContextInitialized(sc)
+ApplicationMaster register to RM and wait for sc initialized (data locality). Afterwards, allococate resources, e.g., executors. Then, launch report thread to for status monitoring.
+ApplicationMaster.waitForSparkContextInitialized()
+
+reduceByKey->combineByKey->PairedRDDFunctions->ShuffleRDD->mapPartitionsWithContext changed to MapPartitionsRDD
+
+
+submitMissingTasks
+
+submitStage->getMissingParentStages->getShuffleMapStage
+submitMissingTasks->new ShuffleMapTask which write result to external.
+
+Streaming:
+ReceiverSupervisor
+
+
+
+Start Spark:
+ln -s /usr/bin/java /bin/java
+
+
+./bin/spark-submit --class org.apache.spark.examples.KeyPartition    --master yarn-cluster     --num-executors 500     --driver-memory 1g     --executor-memory 7600m     --executor-cores 1   ./examples/target/scala-2.10/spark-examples-1.2.0-SNAPSHOT-hadoop2.4.0.jar   hdfs://cn041-10:8020/user/hive/external/tpch-100/lineitem partition
+
+./bin/spark-shell --master local[4]
+ ./bin/spark-shell --num-executors 100 --executor-memory 3700m --master yarn-client -Djava.library.path=/grid/0/hadoop/lib/native
+./bin/spark-shell --num-executors 2 --executor-memory 4g --master yarn-client
+val textFile = sc.textFile("hdfs://cn041-10:8020/user/hive/external/tpch-2/lineitem")
+val rec = textFile.map(a=>(a.split('|')(10), a))
+val recs = rec.groupByKey(115)
+recs.saveRecordAsTextFile("partition")
+recs.take(1)
+
+val textFile = sc.textFile("hdfs://cn041-10:8020/user/hive/external/tpch-1000/lineitem")
+val rec = textFile.map(a=>(a.split('|')(10), a))
+val recs = rec.groupByKey(150)
+recs.saveRecordAsTextFile("partition000")
+
+351  val textFile = sc.textFile("/user/zzhang/low1gb.txt")
+352  val counts = textFile.flatMap(line => line.split(" ")).map(word => (word, 1))
+353  val rec = counts.groupByKey()
+
+
+package org.apache.spark.examples
+
+import scala.math.random
+
+import org.apache.spark._
+
+/** Computes an approximation to pi */
+object SparkPi {
+   /*invoked by application master.*/
+  def main(args: Array[String]) {
+    val conf = new SparkConf().setAppName("Spark Pi")
+   
+    val spark = new SparkContext(conf)
+    val slices = if (args.length > 0) args(0).toInt else 2
+    val n = 100000 * slices
+    val count = spark.parallelize(1 to n, slices).map { i =>
+      val x = random * 2 - 1
+      val y = random * 2 - 1
+      if (x*x + y*y < 1) 1 else 0
+    }.reduce(_ + _)
+    println("Pi is roughly " + 4.0 * count / n)
+    spark.stop()
+  }
+}
+
+thrift-server:
+HADOOP_CONF_DIR=/etc/hadoop/conf HIVE_SERVER2_THRIFT_PORT=12345 MASTER=yarn-client ./sbin/start-thriftserver.sh
+HIVE_SERVER2_THRIFT_PORT=12345 ./sbin/start-thriftserver.sh --master yarn-client
+./sbin/start-thriftserver.sh --master yarn-client :qhive.server2.thrift.port=10001
+
+for local mode, it has to have hdfs setup.
+./bin/beeline
+!connect jdbc:hive2://172.21.0.105:12345
+username:zzhang passwd blank
+HIVE_SERVER2_THRIFT_PORT=12345 ./sbin/start-thriftserver.sh --master yarn-client --executor-memory 512m
+
+CREATE TABLE IF NOT EXISTS src (key INT, value STRING);
+copy kv1.txt to ./
+LOAD DATA LOCAL INPATH 'kv1.txt' INTO TABLE src;	
+create table orc_demo(key INT, value STRING) stored as orc;
+INSERT INTO table orc_demo select * from src;
+
+/*hive*/
+hiveContext.hql("CREATE TABLE IF NOT EXISTS src (key INT, value STRING)
+hiveContext.hql("USE default")
+val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+hiveContext.sql("CREATE TABLE IF NOT EXISTS src (key INT, value STRING)")
+hiveContext.hql("LOAD DATA LOCAL INPATH 'kv1.txt' INTO TABLE src")
+hiveContext.hql("FROM src SELECT key, value").collect().foreach(println)
+
+
+mvn package -Phadoop-2 -DskipTests 
+create table demo(foo string);
+load data inpath '/user/vagrant/testfile' into table demo;
+create table orc_demo(fool string) stored as orc;
+INSERT INTO table orc_demo select * from demo;
+
+
+   hiveContext.hql(USE default")
+  hiveContext.hql("USE default")
+  val hiveContext = new org.apache.spark.sql.hive.LocalHiveContext(sc)
+  hiveContext.hql("CREATE TABLE IF NOT EXISTS src (key INT, value STRING)")
+  hiveContext.hql("LOAD DATA LOCAL INPATH 'kv1.txt' INTO TABLE src")
+  hiveContext.hql("FROM src SELECT key, value").collect().foreach(println)
+  hiveContext.hql("CREATE DATABASE default")
+1090  val inputRead = sc.hadoopFile("/user/zzhang/orc_demo",classOf[org.apache.hadoop.hive.ql.io.orc.OrcInputFormat],classOf[org.apache.hadoop.io.NullWritable],classOf[org.apache.hadoop.hive.ql.io.orc.OrcStruct])
+1091  val v = inputRead.map(pair => pair._2.toString)
+1092  val c = v.collect
+1093  hiveContext.hql("create table orc_demo(key int, fool string) stored as orc")
+1094  hiveContext.hql("INSERT INTO table orc_demo select * from src")
+1097  hiveContext.hql("FROM orc_demo SELECT key, fool").collect().foreach(println)
+
+
+
+
+val textFile = sc.textFile("hdfs://cn041-10:8020/user/oleg/sample-256.txt")
+textFile.count 
+
+val textFile = sc.textFile("hdfs://cn041-10:8020/user/oleg/word-count.txt") 
+val counts = textFile.flatMap(line => line.split(" ")).map(word => (word, 1)).reduceByKey((a, b) => a + b)
+counts.cache
+counts.count
+counts.collect()
+
+
+HW11188:clientpositive zzhang$ sed -i.bak 's/\.\.\/data\/files/data\/files/g' *.q
+HW11188:clientpositive zzhang$ vi alter3.q
+HW11188:clientpositive zzhang$ pwd
+/Users/zzhang/08082014/spark/sql/hive/src/test/resources/ql/src/test/queries/clientpositive
+
+
+./gradlew clean idea
+./gradlew clean build
+val w1 = sc.parallelize(Array(("a", 3),("a",4), ("b", 2), ("b", 5), ("c", 1), ("c", 9), ("c", 4), ("d", 6)))
+val w2 = sc.parallelize(Array(("a", 3), ("a", 5), :("b", 2), ("c", 5), ("d", 1), ("e", 9), ("f", 4), ("g", 6)))
+val w1 = sc.parallelize(List("a", "a", "b", "b", "c", "c"))
+val rdd1 = w1.map{x=>{println("map");(x, 1)}}
+val rdd2 =rdd1.reduceByKey{(a,b)=>{println("reduce1"); a+b}}
+val rdd3 =rdd2.reduceByKey{(a,b)=>{println("reduce2"); a+b}}
+
+val groups = sc.parallelize(List("a,b,c,d", "b,c,e", "a,c,d", "e,g"))
+val weights = sc.parallelize(Array(("a", 3), ("b", 2), ("c", 5), ("d", 1), ("e", 9), ("f", 4), ("g", 6)))
+val g1=groups.flatMap(s=>s.split(",").map(x=>(x, Seq(s))))
+val j = g1.join(weights)
+val k = j.map(x=>(x._2._1, x._2._2))
+val l = k.groupByKey()
+l.filter(x=>{var sum = 0; x._2.foreach(a=> {sum=sum+a});sum > 12})
+val result=l.map(x=>x._1)
+scala> result.foreach(println)
+List(e,g)
+List(a,b,c,d)
+List(b,c,e)
+List(a,c,d)
+
+
+ORC_FILTER_PUSHDOWN_ENABLED = false
+import org.apache.spark.sql.hive.orc._
+val ctx = new org.apache.spark.sql.hive.HiveContext(sc)
+
+val people = sc.textFile("people.txt")
+val schemaString = "name age"
+import org.apache.spark.sql._
+val schema = StructType(schemaString.split(" ").map(fieldName => {if(fieldName == "name") StructField(fieldName, StringType, true) else StructField(fieldName, IntegerType, true)}))
+val rowRDD = people.map(_.split(",")).map(p => Row(p(0), new Integer(p(1).trim)))
+val peopleSchemaRDD = ctx.applySchema(rowRDD, schema)
+peopleSchemaRDD.registerTempTable("people")
+val results = ctx.sql("SELECT * FROM people")
+results.map(t => "Name: " + t.toString).collect().foreach(println)
+peopleSchemaRDD.saveAsOrcFile("people.orc")
+val orcFile = ctx.orcFile("people.orc")
+orcFile.registerTempTable("orcFile")
+val teenagers = ctx.sql("SELECT age FROM orcFile WHERE age <3")
+teenagers.map(t => "Name: " + t.toString).collect().foreach(println)
+
+val orcFile = ctx.orcFile("file:///Users/zzhang/repo/orc_test")
+orcFile.registerTempTable("orcFile")
+val teenagers = ctx.sql("SELECT name,  age FROM orcFile WHERE name < 'name_7'")
+val teenagers = ctx.sql("SELECT name,  contacts FROM orcFile WHERE age < 3")
+val teenagers = ctx.sql("SELECT name,  age FROM orcFile WHERE age < 3")
+teenagers.map(t => "Name: " + t.toString()).collect().foreach(println)
+
+
+
+HDFS upgrade:
+  517  hadoop-daemon.sh start namenode -upgrade
+  518  hadoop dfsadmin -upgradeProgress status
+  519  start-dfs.sh
+  520  jps
+  521  hadoop dfsadmin -finalizeUpgrade
+
+HiveSerDeSuite
+HiveQuerySuite
+HiveTableScanSuite
+HiveUdfSuite
+
+risk:
+sbt/sbt -Phive -Dhive.version=0.14.0 -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0 "test-only  org.apache.spark.scheduler.CoarseGrainedSchedulerBackendSuite"
+sbt/sbt -Phive -Dhive.version=0.14.0 -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0 "test-only org.apache.spark.broadcast.BroadcastSuite"
+sbt/sbt -Phive -Dhive.version=0.14.0 -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0 "test-only  org.apache.spark.FileServerSuite"
+sbt/sbt -Phive -Dhive.version=0.14.0 -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0 "test-only org.apache.spark.network.shuffle.ExternalShuffleBlockManagerSuite"
+
+./bin/spark-shell --master yarn-client --executor-memory 512m --jars /usr/hdp/2.2.0.0-2036/hadoop/lib/hadoop-lzo-0.6.0.2.2.0.0-2036.jar
+
+
+
+hadoop fs -mkdir -p /mr-history/tmp; hadoop fs -chmod -R 1777 /mr-history/tmp; hadoop fs -mkdir -p /mr-history/done; hadoop fs -chmod -R 1777 /mr-history/done; hadoop fs -chown -R $MAPRED_USER:$HDFS_USER /mr-history; hadoop fs -mkdir -p /app-logs;
+hadoop fs -chmod -R 1777 /app-logs; hadoop fs -chown yarn /app-logs
+
+
+/usr/hdp/current/hadoop/bin/hadoop jar /usr/hdp/current/hadoop-mapreduce/hadoop-mapreduce- examples-*.jar teragen 10000 tmp/teragenout/usr/hdp/current/hadoop/bin/hadoop jar /usr/hdp/current/hadoop-mapreduce/hadoop-mapreduce- examples-*.jar terasort tmp/teragenout tmp/terasortout:0
+
+
+addprinc -randkey nn/zhanzhang-1.cs1cloud.internal@CS1CLOUD.INTERNAL
+addprinc -randkey HTTP/zhanzhang-1.cs1cloud.internal@CS1CLOUD.INTERNAL
+
+addprinc -randkey nn/zhanzhang-6.cs1cloud.internal@CS1CLOUD.INTERNAL
+addprinc -randkey HTTP/zhanzhang-6.cs1cloud.internal@CS1CLOUD.INTERNAL
+
+addprinc -randkey dn/zhanzhang-1.cs1cloud.internal@CS1CLOUD.INTERNAL
+addprinc -randkey dn/zhanzhang-6.cs1cloud.internal@CS1CLOUD.INTERNAL
+
+addprinc -randkey jhs/zhanzhang-1.cs1cloud.internal@CS1CLOUD.INTERNAL
+addprinc -randkey jhs/zhanzhang-6.cs1cloud.internal@CS1CLOUD.INTERNAL
+
+addprinc -randkey rm/zhanzhang-1.cs1cloud.internal@CS1CLOUD.INTERNAL
+addprinc -randkey rm/zhanzhang-6.cs1cloud.internal@CS1CLOUD.INTERNAL
+
+addprinc -randkey nm/zhanzhang-1.cs1cloud.internal@CS1CLOUD.INTERNAL
+addprinc -randkey nm/zhanzhang-6.cs1cloud.internal@CS1CLOUD.INTERNAL
+
+
+
+xst -k nn.service.keytab nn/zhanzhang-1.cs1cloud.internal
+xst -k spnego.service.keytab HTTP/zhanzhang-1.cs1cloud.internal
+
+xst -k nn6.service.keytab nn/zhanzhang-6.cs1cloud.internal
+xst -k spnego6.service.keytab HTTP/zhanzhang-6.cs1cloud.internal
+
+
+xst -k dn.service.keytab dn/zhanzhang-1.cs1cloud.internal
+xst -k dn6.service.keytab dn/zhanzhang-6.cs1cloud.internal
+
+xst -k rm.service.keytab rm/zhanzhang-1.cs1cloud.internal
+
+xst -k nm.service.keytab nm/zhanzhang-1.cs1cloud.internal
+xst -k nm6.service.keytab nm/zhanzhang-6.cs1cloud.internal
+
+klist -k -t /etc/security/dn.service.keytab
+
+/*********spark-1.2 GA*/
+
+park.driver.extraJavaOptions      -Dhdp.version=1  -Dtty=2
+spark.yarn.am.extraJavaOptions     -Dhdp.version=2  -Dtty=2 -Dnumbers="one"
+spark.yarn.services                org.apache.spark.deploy.yarn.history.YarnHistoryService
+spark.history.provider             org.apache.spark.deploy.yarn.history.YarnHistoryProvider
+spark.acls.enable                  true
+spark.modify.acls                  zzhang
+spark.ui.view.acls                 zzhang
+spark.admin.acls                   zzhang,hdfs
+spark.history.ui.acls.enable       true
+spark.yarn.historyServer.address   10.11.3.111:18080
+
+/*security*/
+spark.authenticate = true
+spark.ui.acls.enable = true
+spark.ui.view.acls = koert
+spark.ui.filters  org.apache.hadoop.security.authentication.server.AuthenticationFilter
+spark.org.apache.hadoop.security.authentication.server.AuthenticationFilter.params type=kerberos,kerberos.principal=HTTP/mybox@MYDOMAIN,kerberos.keytab=/some/keytab
+
+
+
+mvn -Phive -Phive-thriftserver -Pyarn -Pyarn-history -Phadoop-2.4 -Dhadoop.version=2.6.0 clean package -DskipTests
+./make-distribution.sh --tgz -Phive -Phive-thriftserver  -Pyarn -Pyarn-history -Phadoop-2.6
+
+sbt/sbt -Phive -Phive-thriftserver -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0 assembly
+
+ORC file:
+./bin/spark-shell --master local[4]
+
+import org.apache.spark.sql.hive.orc._
+val ctx = new org.apache.spark.sql.hive.HiveContext(sc)
+
+ORC_FILTER_PUSHDOWN_ENABLED = false
+
+val orcFile = ctx.orcFile("file:///Users/zzhang/repo/orc_test")
+val orcFile = ctx.orcFile("orc_test")
+orcFile.registerTempTable("orcFile")
+val teenagers = ctx.sql("SELECT name,  age FROM orcFile WHERE name < 'name_7'")
+val teenagers = ctx.sql("SELECT name,  contacts FROM orcFile WHERE age < 3")
+val teenagers = ctx.sql("SELECT name,  age FROM orcFile WHERE age < 3")
+val teenagers = ctx.sql("SELECT age, count(*) FROM orcFile group by age")
+teenagers.map(t => "Name: " + t.toString()).collect().foreach(println)
+
+2501  import org.apache.spark.sql.hive.orc._
+2502  val ctx = new org.apache.spark.sql.hive.HiveContext(sc)
+2503  val orcFile = ctx.orcFile("file:///Users/zzhang/repo/orc_test")
+2504  orcFile.schema
+2505  orcFile.schemaString
+2506  orcFile.registerTempTable("orcFile")
+2507  val teenagers = ctx.sql("SELECT name,  contacts FROM orcFile WHERE age < 3")
+2508  teenagers.map(t => "Name: " + t.toString()).collect().foreach(println)
+2509  val teenagers = ctx.sql("SELECT name,  contacts FROM orcFile WHERE age > 3")
+2510  teenagers.map(t => "Name: " + t.toString()).collect().foreach(println)
+2511  val teenagers = ctx.sql("SELECT name,  contacts FROM orcFile WHERE age > 8")
+2512  teenagers.map(t => "Name: " + t.toString()).collect().foreach(println)
+2513  val teenagers = ctx.sql("SELECT name,  contacts FROM orcFile WHERE age > 6 and age <10")
+2514  teenagers.map(t => "Name: " + t.toString()).collect().foreach(println)
+2515  teenagers.saveAsOrcFile("teenagers")
+
+yarn historyserver
+start-history-server.sh
+
+/*how to solve lzo issue in spark-env.sh
+export LD_LIBRARY_PATH=/grid/0/hdp/2.2.1.0-2278/hadoop/lib/native/:/grid/0/hdp/2.2.1.0-2278/hadoop/lib/native/Linux-amd64-64/:$LD_LIBRARY_PATH
+export SPARK_CLASSPATH=/grid/0/hdp/2.2.1.0-2278/hadoop/lib/hadoop-lzo-0.6.0.2.2.1.0-2278.jar
+
+
+$SPARK_HOME/bin/pyspark --jars /grid/0/hdp/2.2.1.0-2278/hadoop/lib/hadoop-lzo-0.6.0.2.2.1.0-2278.jar -Djava.library.path=./grid/0/hdp/2.2.1.0-2308/hadoop/lib/native:/grid/0/hdp/2.2.1.0-2278/hadoop/lib/native/Linux-amd64-64/
+
+export SPARK_LIBRARY_PATH=/grid/0/hdp/2.2.1.0-2278/hadoop/lib/native/:/lib/modules/2.6.32-504.1.3.el6.x86_64/kernel/lib/lzo/
+
+./bin/spark-shell --master yarn-client
+./bin/spark-shell --master yarn-client --executor-memory 512m --jars /usr/hdp/2.2.0.0-2036/hadoop/lib/hadoop-lzo-0.6.0.2.2.0.0-2036.jar
+./bin/spark-shell --master yarn-client --executor-memory 512m --jars /grid/0/hdp/2.2.1.0-2278/hadoop/lib/hadoop-lzo-0.6.0.2.2.1.0-2278.jar -Djava.library.path=/grid/0/hdp/2.2.1.0-2085/hadoop/lib/native
+
+./bin/spark-submit --class org.apache.spark.examples.SparkPi     --master yarn-cluster     --num-executors 2     --driver-memory 512m     --executor-memory 512m     --executor-cores 1     ./lib/spark-examples*.jar     3
+ ./bin/spark-submit --class org.apache.spark.examples.MultiBroadcastTest     --master yarn-cluster     --num-executors 2     --driver-memory 512m     --executor-memory 512m     --executor-cores 1     ./lib/spark-examples*.jar
+ ./bin/spark-submit --class org.apache.spark.examples.sql.RDDRelation     --master yarn-cluster     --num-executors 2     --driver-memory 512m     --executor-memory 512m     --executor-cores 1     ./lib/spark-examples*.jar
+./bin/spark-submit --class org.apache.spark.examples.BroadcastTest     --master yarn-cluster     --num-executors 2     --driver-memory 512m     --executor-memory 512m     --executor-cores 1     ./lib/spark-examples*.jar
+./bin/spark-submit --class org.apache.spark.examples.SparkALS     --master yarn-cluster     --num-executors 2     --driver-memory 512m     --executor-memory 512m     --executor-cores 1     ./lib/spark-examples*.jar
+./bin/spark-submit --class org.apache.spark.examples.SparkTC     --master yarn-cluster     --num-executors 2     --driver-memory 512m     --executor-memory 512m     --executor-cores 1     ./lib/spark-examples*.jar
+./bin/spark-submit --class org.apache.spark.examples.SparkLR     --master yarn-cluster     --num-executors 2     --driver-memory 512m     --executor-memory 512m     --executor-cores 1     ./lib/spark-examples*.jar
+
+./bin/spark-submit --class org.apache.spark.examples.sql.hive.HiveFromSpark   --master yarn-cluster     --jars lib/datanucleus-api-jdo-3.2.6.jar,lib/datanucleus-rdbms-3.2.9.jar,lib/datanucleus-core-3.2.10.jar --num-executors 2     --driver-memory 512m     --executor-memory 512m     --executor-cores 1     ./lib/spark-examples*.jar
+
+./bin/spark-submit --class org.apache.spark.examples.sql.hive.HiveFromSpark   --master yarn-cluster     --num-executors 2     --driver-memory 512m     --executor-memory 512m     --executor-cores 1 --files conf/hive-site.xml    ./lib/spark-examples*.jar
+
+
+./bin/spark-submit --master yarn-client examples/src/main/python/pi.py
+
+spark.driver.extraJavaOptions      -Dhdp.version=1  -Dtty=2
+spark.yarn.am.extraJavaOptions     -Dhdp.version=2  -Dtty=2 -Dnumbers="one"
+spark.yarn.services                org.apache.spark.deploy.yarn.history.YarnHistoryService
+spark.history.provider             org.apache.spark.deploy.yarn.history.YarnHistoryProvider
+
+/*hive*/
+prerequisite:
+create the user: zzhang, add zzhang to users group
+change the fs permission hdfs://node-1.example.com:8020/apps/hive/warehouse/
+val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+hiveContext.hql("CREATE TABLE IF NOT EXISTS src (key INT, value STRING)")
+hiveContext.hql("USE default")
+hiveContext.sql("CREATE TABLE IF NOT EXISTS src (key INT, value STRING)")
+hiveContext.hql("LOAD DATA LOCAL INPATH './examples/src/main/resources/kv1.txt' INTO TABLE src")
+hiveContext.hql("FROM src SELECT key, value").collect().foreach(println)
+hiveContext.hql("FROM src SELECT key, value").collect().foreach(println)
+
+/*thriftserver*/
+for local mode, it has to have hdfs setup.
+./bin/beeline
+!connect jdbc:hive2://172.18.145.4110.0.2.15:12345
+!connect jdbc:hive2://10.11.3.202:10000
+username:zzhang passwd blank
+HIVE_SERVER2_THRIFT_PORT=12345 ./sbin/start-thriftserver.sh --master yarn-client --executor-memory 512m
+
+
+
+
+mvn -Phive -Phive-thriftserver -Pyarn -Pyarn-history -Phadoop-2.4 -Dhadoop.version=2.6.0 -DwildcardSuites=org.apache.spark.broadcast.BroadcastSuite test
+
+
+/**spark job server**/
+start job server:
+sbt
+reStart
+submit jar:
+curl --data-binary @job-server-tests/target/job-server-tests-0.4.2-SNAPSHOT.jar localhost:8090/jars/test
+curl -d "input.string = a b c a b see" 'localhost:8090/jobs?appName=test&classPath=spark.jobserver.WordCountExample'
+curl localhost:8090/jobs/9c8a1761-2623-496f-925d-aba905b9152b
+curl -d "" 'localhost:8090/jobs?appName=test&classPath=spark.jobserver.LongPiJob'
+
+  694  export SBT_OPTS="-XX:+CMSClassUnloadingEnabled -XX:PermSize=512M -XX:MaxPermSize=1024M"
+  695  sbt job-server/assembly 
+spark.driver.extraJavaOptions "-XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256m"
+spark.yarn.am.extraJavaOptions
+
+
+
+
+make-distribution.sh --HDP --tgz -Phive -Phive-thriftserver -Pyarn -Pyarn-history -Phadoop-2.4 -Dhadoop.version=2.6.0  -Phbase-provided -DskipTests
+
+./gradlew clean installApp -PhadoopVersion=2.6.0 -PtezVersion=0.5.2 -PsparkVersion=1.2.1-SNAPSHOT
+
+http://s3.amazonaws.com/dev.hortonworks.com/HDP/centos7/2.x/BUILDS/2.2.2.0-2454
+
+///******kafka******//
+export YARN_CONF=$HADOOP_CONF_DIR
+export PATH=/Applications/Vagrant/bin/:$PATH
+export CLASSPATH=$CLASSPATH:/Users/zzhang/vagrant/hadoop-lzo-0.6.0.2.2.0.0-2036.jar
+./bin/spark-submit --class org.apache.spark.examples.streaming.KafkaWordCountProducer    --master yarn-cluster  --num-executors 3 --driver-memory 512m  --executor-memory 512m   --executor-cores 1  lib/spark-examples*.jar sandbox.hortonworks.com:6667 topic1 10 10
+
+./bin/spark-submit --class org.apache.spark.examples.streaming.KafkaWordCount    --master yarn-cluster  --num-executors 3 --driver-memory 512m  --executor-memory 512m   --executor-cores 1  lib/spark-examples*.jar localhost:2181 cgrp2 topic1 1
+
+create topic:
+/usr/hdp/2.2.0.0-2041/kafka/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic topic3
+
+produce:
+/usr/hdp/2.2.0.0-2041/kafka/bin/kafka-console-producer.sh --broker-list sandbox.hortonworks.com:6667 --topic topic3
+
+consumer:
+/usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --topic topic1 --from-beginning --zookeeper localhost:2181
+
+
+/usr/hdcurrent/kafka-broker/bin/kafka-console-consumer.sh --topic topic2 --from-beginning --zookeeper localhost:2181
+
+
+./bin/spark-submit --class com.philips.bda.spark.utils.KafkaConsumerUtilMain    --master yarn-cluster  --num-executors 3 --driver-memory 512m  --executor-memory 512m   --executor-cores 4  KafkaConsumerUtil.jar topic3  cgrp5 1 4 philips
+
+blueprint: ~/code/blueprint/
+//extract the cluster config from old cluster
+curl -H "X-Requested-By: ambari" -X GET -u admin:admin http://suse1101:8080/api/v1/clusters/test?format=blueprint > blue
+//upload the blueprint to new vm 
+ curl -H "X-Requested-By: ambari" -X POST -d @blue -u admin:admin http://suse1101:8080/api/v1/blueprints/blue?validate_topology=false
+//request to create a new cluster
+curl -H "X-Requested-By: ambari" -X POST -d @config -u admin:admin http://suse1101:8080/api/v1/clusters/test
+
+presetup:
+copy repo to vm
+zypper clean
+zypper refresh
+zypper install snappy snappy-devel
+
+ambari:
+git clone https://github.com/u39kun/ambari-vagrant.git
+cd ambari-vagrant/
+cd centos6.4
+cp ~/.vagrant.d/insecure_private_key .
+./up.sh 3
+scp ~/.ssh/id_dsa.pub vagrant@c6401:~/
+scp ~/.ssh/id_dsa.pub vagrant@c6402:~/
+scp ~/.ssh/id_dsa.pub vagrant@c6403:~/
+
+vagrant ssh c6401
+sudo su
+cp ~vagrant/id_dsa.pub ~/.ssh/
+cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
+exit
+exit
+
+wget -O /etc/zypp/repos.d/ambari.repo http://dev.hortonworks.com.s3.amazonaws.com/ambari/suse11/2.x/updates/2.1.0/ambariqe.repo
+
+scp ~/SPARK.zip root@c6401:~/
+
+ cd /var/lib/ambari-server/resources/common-services/
+cp ~/SPARK.zip ./
+unzip SPARK.zip
+ambari-server start
+
+scp ~/Downloads/install_kdc.sh root@c6401:~/
+
+vagrant snapshot go snapshot-1
+
+
+/secure cluster
+kadmin -p admin/admin@EXAMPLE.COM
+
+klist -e -k -t spark.keytab
+addprinc -randkey spark/ambari.apache.org@EXAMPLE.COM
+xst  -k spark.keytab spark/ambari.apache.org
+kinit -k -t /usr/hdp/2.2.1.0-2340/spark.keytab spark/ambari.apache.org@EXAMPLE.COM
+kdestroy
+
+
+scp -r ambari-server/src/main/resources/common-services/SPARK root@c6401:/var/lib/ambari-server/resources/common-services/
+scp -r ./ambari-server/src/main/resources/stacks/HDP/2.2/services/SPARK root@c6401:/var/lib/ambari-server/resources/stacks/HDP/2.2/services/
+
+import scala.math.random
+
+import org.apache.spark._
+import org.apache.spark.storage.StorageLevel
+
+    val slices = 2
+    val n = 1000 * slices
+
+    val rdd = sc.parallelize(1 to n, slices)
+    rdd.persist(StorageLevel.OFF_HEAP)
+    rdd.count
+    val rdd1 = rdd.map(_.toString)
+    rdd1.persist(StorageLevel.OFF_HEAP)
+    val rdd2 = rdd1.map((_,1)).reduceByKey(_+_)
+    rdd2.persist(StorageLevel.OFF_HEAP)
+    rdd2.count
+
+ mvn -Phive -Phive-thriftserver -Pyarn -Phadoop-2.4 -Dhadoop.version=2.6.0  -Dhbase.profile=hadoop2 -DwildcardSuites=org.apache.spark.sql.hive.orc.OrcQuerySuite test
+ mvn -Phive -Phive-thriftserver -Pyarn -Phadoop-2.4 -Dhadoop.version=2.6.0  -Dhbase.profile=hadoop2 -DwildcardSuites=org.apache.spark.sql.hive.orc.OrcSourceSuite test
+ mvn -Phive -Phive-thriftserver -Pyarn -Phadoop-2.4 -Dhadoop.version=2.6.0  -Dhbase.profile=hadoop2 -DwildcardSuites=org.apache.spark.sql.hive.orc.OrcPartitionDiscoverySuite test
+
+import org.apache.spark.sql.hive.orc._
+import org.apache.spark.sql._
+//saveAsOrcFile
+case class AllDataTypes(
+    stringField: String,
+    intField: Int,
+    longField: Long,
+    floatField: Float,
+    doubleField: Double,
+    shortField: Short,
+    byteField: Byte,
+    booleanField: Boolean)
+
+    val range = (0 to 255)
+    val data = sc.parallelize(range).map(x => AllDataTypes(s"$x", x, x.toLong, x.toFloat, x.toDouble, x.toShort, x.toByte, x % 2 == 0))
+    data.toDF().saveAsOrcFile("orcTest")
+//read orcFile
+val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)  
+val orcTest = hiveContext.orcFile("orcTest")  
+orcTest.registerTempTable("orcTest") 
+hiveContext.sql("SELECT * from orcTest where intfield>185").collect.foreach(println)
+
+  hiveContext.sql("create temporary table orc using org.apache.spark.sql.hive.orc OPTIONS (path \"orcTest\")")
+  hiveContext.sql("select * from orc").collect.foreach(println)
+val table = hiveContext.sql("select * from orc")
+table.saveAsTable("table", "org.apache.spark.sql.hive.orc")
+val hiveOrc = hiveContext.orcFile("/user/hive/warehouse/table")
+hiveOrc.registerTempTable("hiveOrc")
+hiveContext.sql("select * from hiveOrc").collect.foreach(println)
+table.saveAsOrcFile("/user/ambari-qa/table")
+hiveContext.sql("create temporary table normal_orc_as_source USING org.apache.spark.sql.hive.orc OPTIONS (path 'saveTable') as select * from table")
+
+
+682  find . -name *assem*\.jar
+  683  cp ./assembly/target/scala-2.10/spark-assembly-1.3.1-hadoop2.6.0.jar tmp/
+  684  cd tmp
+  685  java -version
+  686  ls
+  687  vi spark-assembly-1.3.1-hadoop2.6.0.jar
+  688  jar -xvf spark-assembly-1.3.1-hadoop2.6.0.jar
+  689  ls
+  690  rm -rf spark-assembly-1.3.1-hadoop2.6.0.jar
+  691  cd ..
+  692  /System/Library/Frameworks/JavaVM.framework/Versions/1.6/Commands/jar  cvf spark-assembly-1.3.1-hadoop2.6.0.jar -C tmp/ .
+
+
+calcite algbera
+vectorization engine
+
+
+val schema = StructType(schemaString.split(" ").map(fieldName => {if(fieldName == "name") StructField(fieldName, StringType, true) else StructField(field Name, IntegerType, true)}))
+
+one sum svm
+single point
+
+[HDP-2.2]
+name=HDP
+baseurl=http://s3.amazonaws.com/dev.hortonworks.com/HDP/centos6/2.x/BUILDS/2.2.2.0-2538
+path=/
+enabled=1
+gpgcheck=0
+
+
+ bin/spark-submit --class org.apache.spark.examples.mllib.LinearRegression   examples/target/scala-*/spark-examples-*.jar   sample_linear_regression_data.txt
+
+This is the application code problem. Due to exception, sc is not correctly stopped. The fix is easy, but I suspect most of the examples have the same problem.
+
+Uname : Administrator
+Passwd: Horton!#%works
+
+bin/spark-shell --master yarn-client --driver-java-options -Dhdp.version=1.23 --verbose --properties-file conf/spark-defaults.conf
+
+D:\hdp\spark-1.3.1.2.3.0.0-2351\bin\spark-submit  --class org.apache.spark.examples.mllib.SampledRDDs  --master yarn-cluster --jars D:\hdp\hadoop-2.7.1.2.3.0.0-2351\share\hadoop\common\hadoop-lzo-0.4.19.2.3.0.0-2351.jar D:\hdp\spark-1.3.1.2.3.0.0-2351\lib\spark-examples-1.3.1.2.3.0.0-2351-hadoop2.7.1.2.3.0.0-2351.jar  --input /tmp/sparkMLLInput/sample_binary_classification_data.txt
+
+
+
+
+D:\hdp\spark-1.3.1.2.3.0.0-2351\bin\spark-submit  --class org.apache.spark.examples.mllib.SampledRDDs --conf """spark.yarn.am.extraJavaOptions=-Dhdp.version=2.3.0.0-2351 -XX:MaxPermSize=256m""" --conf """spark.driver.extraJavaOptions=-Dhdp.version=2.3.0.0-2351 -XX:MaxPermSize=256m""" --master yarn-cluster --jars D:\hdp\hadoop-2.7.1.2.3.0.0-2351\share\hadoop\common\hadoop-lzo-0.4.19.2.3.0.0-2351.jar D:\hdp\spark-1.3.1.2.3.0.0-2351\lib\spark-examples-1.3.1.2.3.0.0-2351-hadoop2.7.1.2.3.0.0-2351.jar  --input /tmp/sparkMLLInput/sample_binary_classification_data.txt
+
+
+import org.apache.spark.ml.async._
+    val s = sc.parallelize(List(1,2), 2)
+    val model = new SampleModel {
+      uStep = 2
+      fStep = 3
+      tStep = 36
+      mStep = 48
+    }
+    val pServer = new ParamServer(model, s)
+    pServer.start()
+ model.distParams
+
+make-distribution.sh --HDP --tgz -Phive -Phive-thriftserver -Pyarn -Pyarn-history -Phadoop-2.6 -Phbase-provided -DskipTests
+
+val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+case class Inner(a: String, b: String)
+case class Outer(key: String, inners: Inner)
+val outers = sc.parallelize(List(Outer("k1", Inner("a", "b"))))
+import hiveContext.implicits._
+ outers.toDF.write.orc("orcFile")
+ val m = hiveContext.read.format("orc").load("orcFile")
+ m.schema
+ m.registerTempTable("orcTable")
+ val t = hiveContext.sql("select inners.a from orcTable")
+val t = hiveContext.sql("select inners.a from orcTable where inners.b='a'")
+
+== Parsed Logical Plan ==
+'Project [unresolvedalias('inners.a)]
+ 'Filter ('inners.b = a)
+  'UnresolvedRelation [orcTable], None
+
+== Analyzed Logical Plan ==
+a: string
+Project [inners#5.a AS a#29]
+ Filter (inners#5.b = a)
+  Subquery orctable
+   Relation[key#4,inners#5] OrcRelation[file:/Users/zzhang/code/UNET/orcFile]
+
+== Optimized Logical Plan ==
+Project [inners#5.a AS a#29]
+ Filter (inners#5.b = a)
+  Relation[key#4,inners#5] OrcRelation[file:/Users/zzhang/code/UNET/orcFile]
+
+== Physical Plan ==
+Project [inners#5.a AS a#29]
+ Filter (inners#5.b = a)
+  Scan OrcRelation[file:/Users/zzhang/code/UNET/orcFile][inners#5]
+
+
+hbase(main):001:0> grant 'spark', 'RWC'
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/hdp/2.2.6.0-2800/hadoop/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/hdp/2.2.6.0-2800/zookeeper/lib/slf4j-log4j12-1.6.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+0 row(s) in 6.2490 seconds
+
+hbase(main):002:0>
+
+export SPARK_CLASSPATH=/usr/hdp/current/hbase-client/lib/hbase-common.jar:/usr/hdp/current/hbase-client/lib/hbase-client.jar:/usr/hdp/current/hbase-client/lib/hbase-server.jar:/usr/hdp/current/hbase-client/lib/hbase-protocol.jar:/usr/hdp/current/hbase-client/lib/guava-12.0.1.jar:/usr/hdp/current/hbase-client/lib/htrace-core-3.1.0-incubating.jar:/usr/hdp/current/spark-client/lib/hbase-spark-connector-1.0.0.jar
+
+./bin/spark-submit --class org.apache.spark.examples.HBaseTest     --master yarn-client     --num-executors 2     --driver-memory 512m     --executor-memory 512m     --executor-cores 1   --jars  /usr/hdp/current/hbase-client/lib/htrace-core-3.0.4.jar,/usr/hdp/current/hbase-client/lib/hbase-client.jar,/usr/hdp/current/hbase-client/lib/hbase-common.jar,/usr/hdp/current/hbase-client/lib/hbase-server.jar,/usr/hdp/current/hbase-client/lib/guava-12.0.1.jar,/usr/hdp/current/hbase-client/lib/hbase-protocol.jar,/usr/hdp/current/hbase-client/lib/htrace-core-3.0.4.jar  ./lib/spark-examples*.jar ambarismoketest
+
+./bin/spark-submit --class org.apache.spark.examples.HBaseTest     --master yarn-cluster     --num-executors 2     --driver-memory 512m     --executor-memory 512m     --executor-cores 1   --jars  /usr/hdp/current/hbase-client/lib/htrace-core-3.0.4.jar,/usr/hdp/current/hbase-client/lib/hbase-client.jar,/usr/hdp/current/hbase-client/lib/hbase-common.jar,/usr/hdp/current/hbase-client/lib/hbase-server.jar,/usr/hdp/current/hbase-client/lib/guava-12.0.1.jar,/usr/hdp/current/hbase-client/lib/hbase-protocol.jar,/usr/hdp/current/hbase-client/lib/htrace-core-3.0.4.jar  --files conf/hbase-site.xml ./lib/spark-examples*.jar ambarismoketest
+
+./bin/spark-submit  --class org.apache.spark.sql.execution.datasources.hbase.examples.HBaseSource --master yarn-client     --num-executors 2     --driver-memory 512m     --executor-memory 512m     --executor-cores 1   --jars  /usr/hdp/current/hbase-client/lib/htrace-core-3.1.0-incubating.jar,/usr/hdp/current/hbase-client/lib/hbase-client.jar,/usr/hdp/current/hbase-client/lib/hbase-common.jar,/usr/hdp/current/hbase-client/lib/hbase-server.jar,/usr/hdp/current/hbase-client/lib/guava-12.0.1.jar,/usr/hdp/current/hbase-client/lib/hbase-protocol.jar,/usr/hdp/current/hbase-client/lib/htrace-core-3.1.0-incubating.jar  --files conf/hbase-site.xml /usr/hdp/current/spark-client/lib/hbase-spark-connector-1.0.0.jar
