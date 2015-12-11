@@ -1,0 +1,7 @@
+If you say f: () => Int, then you mean that "f takes no parameters and produces an Int".
+
+If you say f: => Int, then you mean that "delay the execution of whatever statement produces 
+an Int value until we use it in this code (and re-evaluate it each time)". 
+Functionally, this ends up being basically the same as f: () => Int 
+(and internally is converted into the same Function0 class), but it has a different usage, 
+presumably to allow for a more compact form of closures (you always omit the => in the calling code).
