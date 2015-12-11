@@ -1,4 +1,4 @@
-##1 () => Int vs => Int
+# 1 () => Int vs => Int
 
 If you say f: () => Int, then you mean that "f takes no parameters and produces an Int".
 
