@@ -7,3 +7,11 @@ an Int value until we use it in this code (and re-evaluate it each time)".
 Functionally, this ends up being basically the same as f: () => Int 
 (and internally is converted into the same Function0 class), but it has a different usage, 
 presumably to allow for a more compact form of closures (you always omit the => in the calling code).
+
+http://stackoverflow.com/questions/3855595/what-is-the-scala-identifier-implicitly
+Scala 2.8 allows a shorthand syntax for implicit parameters, called Context Bounds. Briefly, a method with a type parameter A that requires an implicit parameter of type M[A]:
+
+def foo[A](implicit ma: M[A])
+can be rewritten as:
+
+def foo[A: M]
