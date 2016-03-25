@@ -15,3 +15,5 @@ def foo[A](implicit ma: M[A])
 can be rewritten as:
 
 def foo[A: M]
+
+https://jaceklaskowski.gitbooks.io/mastering-apache-spark/content/spark-streaming-windowedoperators.html
