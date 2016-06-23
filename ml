@@ -1,3 +1,43 @@
+GLM:
+http://cs229.stanford.edu/notes/cs229-notes1.pdf
+#Constructing GLMs:
+
+1. First assume y | x; θ is a ExponentialFamily(η). p(y; φ)
+2. Write the distribution in the form p(y; φ) = b(y) exp(ηT T(y) − a(η)). Typically, we can drive φ = f(η) . Then we have 
+   p(y; φ) written as a function of f(η) (link function)
+3. η is a linear funciton of x; θ
+
+With these three steps, we have hθ(x), which is the mean of y.
+Apply maximum likelihood on  p(y; φ), we can derive the cost function.
+
+
+
+
+In this section, we will we will describe a method for constructing
+GLM models for problems such as these.
+More generally, consider a classification or regression problem where we
+would like to predict the value of some random variable y as a function of
+x. To derive a GLM for this problem, we will make the following three
+assumptions about the conditional distribution of y given x and about our
+model:
+1. y | x; θ ∼ ExponentialFamily(η). I.e., given x and θ, the distribution of
+y follows some exponential family distribution, with parameter η.
+
+2. Given x, our goal is to predict the expected value of T(y) given x.
+In most of our examples, we will have T(y) = y, so this means we
+would like the prediction h(x) output by our learned hypothesis h to
+satisfy h(x) = E[y|x]. (Note that this assumption is satisfied in the
+choices for hθ(x) for both logistic regression and linear regression. For
+instance, in logistic regression, we had hθ(x) = p(y = 1|x; θ) = 0 · p(y =
+0|x; θ) + 1 · p(y = 1|x; θ) = E[y|x; θ].)
+
+3. The natural parameter η and the inputs x are related linearly: η = θ
+T x.
+(Or, if η is vector-valued, then ηi = θ
+T
+i x.)
+
+
 http://statweb.stanford.edu/~tibs/stat315a/LECTURES/em.pdf
 
 
