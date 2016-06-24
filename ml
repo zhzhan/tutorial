@@ -4,13 +4,8 @@ http://cs229.stanford.edu/notes/cs229-notes1.pdf
 
 1. First assume y | x; θ is a ExponentialFamily(η). p(y; φ)
 2. Write the distribution in the form p(y; φ) = b(y) exp(ηT T(y) − a(η)). Typically, we can drive φ = f(η) . Then we have 
-   p(y; φ) written as a function of f(η) (link function)
+   p(y; φ) written as a function of f(η) (link function). If T(y) is the identity function, we get canonical link funciton.
 3. η is a linear funciton of x; θ
-
-With these three steps, we have hθ(x), which is the mean of y.
-Apply maximum likelihood on  p(y; φ), we can derive the cost function.
-
-
 
 
 In this section, we will we will describe a method for constructing
