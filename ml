@@ -55,3 +55,7 @@ Both MLE and MAP are point estimation methods, they only return a single value o
 Finally, Expectation Maximization (EM) is a technique to cope with parts of the model that we cannot observe, but we assume should be there. These unobserved parts can be either data that is simply missing from the data, but it might also be things that are never observed, but whose relation to the observed parts we can model (or in other words, parts that "explain" the observed data). In topic models, for example, the hidden parts are the topics that are assumed to explain the observed words. Assume that for each observed point x (e.g. a vector of words), we have a hidden variabel z (e.g. a topic). We then have a distribution p(x,z;w) which assigns a probability to x and z jointly. EM is a method for maximizing the joint likelihood of both the observed and hidden parts. This is done by iteratively using the current value of the parameters to estimate a distribution over the hidden variables given the observed part (expectation) and then finding the parameters that maximize the joint likelihood of the observed variables and the setting of the hidden variables from the previous step (maximization).
 
 If you want to get a more solid understanding of these topics, I suggest you read Christopher Bishop's book Pattern Recognition and Machine Learning.
+
+
+
+tr -sc 'A-Za-z' '\n' < shakes.txt | sort | uniq -c | sort -n -r | less
