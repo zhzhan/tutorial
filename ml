@@ -1,3 +1,7 @@
+Normal Equation: http://www4.ncsu.edu/eos/users/w/white/www/white/mamac/Lecture%2011.pdf
+
+ Cholesky factorization: http://www.seas.ucla.edu/~vandenbe/103/lectures/chol.pdf
+
 GLM:
 http://cs229.stanford.edu/notes/cs229-notes1.pdf
 #Constructing GLMs:
