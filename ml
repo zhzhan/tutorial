@@ -1,5 +1,7 @@
 Normal Equation: http://www4.ncsu.edu/eos/users/w/white/www/white/mamac/Lecture%2011.pdf
 
+Gibbs Sampling: http://www.mit.edu/~ilkery/papers/GibbsSampling.pdf
+
  Cholesky factorization: http://www.seas.ucla.edu/~vandenbe/103/lectures/chol.pdf
 
 GLM:
