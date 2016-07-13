@@ -4,6 +4,12 @@ Gibbs Sampling: http://www.mit.edu/~ilkery/papers/GibbsSampling.pdf
 
  Cholesky factorization: http://www.seas.ucla.edu/~vandenbe/103/lectures/chol.pdf
 
+#EM
+http://www-staff.it.uts.edu.au/~ydxu/ml_course/em.pdf
+
+Other algorithms:
+https://www.uts.edu.au/staff/yida.xu
+
 GLM:
 http://cs229.stanford.edu/notes/cs229-notes1.pdf
 #Constructing GLMs:
