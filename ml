@@ -1,3 +1,6 @@
+徐亦达:
+https://www.youtube.com/channel/UConITmGn5PFr0hxTI2tWD4Q
+
 Normal Equation: http://www4.ncsu.edu/eos/users/w/white/www/white/mamac/Lecture%2011.pdf
 
 Gibbs Sampling: http://www.mit.edu/~ilkery/papers/GibbsSampling.pdf
